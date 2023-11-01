@@ -1,17 +1,26 @@
 package br.com.screenmatch.model;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.ManyToAny;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-//Cria a classe Episodios para podemos pegar os dados.
+@Entity
+@Table(name = "episodios")
 public class Episodio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Integer temporada;
     private String titulo;
     private Integer numeroEpisodio;
     private Double avaliacao;
     private LocalDate dataLancamento;
 
-    // Cria um construtor para poder usar a lista de episodios.
+    @ManyToOne
+    private Serie serie;
+
     public Episodio(Integer numeroTemporada, DadosEpisodio dadosEpisodio) {
         this.temporada = numeroTemporada;
         this.titulo = dadosEpisodio.titulo();
@@ -30,7 +39,30 @@ public class Episodio {
         }
     }
 
-    // Gatters e Setters.
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getNumeroEpisodio() {
+        return numeroEpisodio;
+    }
+
+    public void setNumeroEpisodio(Integer numeroEpisodio) {
+        this.numeroEpisodio = numeroEpisodio;
+    }
+
+    public Serie getSerie() {
+        return serie;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
+    }
+
     public Integer getTemporada() {
         return temporada;
     }
@@ -71,7 +103,6 @@ public class Episodio {
         this.dataLancamento = dataLancamento;
     }
 
-    // Sobrescreve o toString().
     @Override
     public String toString() {
         return "temporada=" + temporada +
